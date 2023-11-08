@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script src="https://kit.fontawesome.com/098c2dda99.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.1/dist/sweetalert2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.1/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.js"></script>
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript">
+      var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+      (function(){
+      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/6526f42deb150b3fb9a08124/1hcg2jla1';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+      })();
+      </script>
+    <title>Adherence</title>
+    <style>
+      /* Calendar styles */
+        .calendar {
+            max-width: 320px;
+            margin: 0 auto;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #0085ff;
+            color: white;
+            padding: 12px;
+            font-weight: bold;
+        }
+
+        .calendar-month {
+            text-transform: uppercase;
+        }
+
+        .calendar-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .calendar-table th, .calendar-table td {
+            text-align: center;
+            padding: 12px;
+        }
+
+        .calendar-table th {
+            background-color: #0085ff;
+            color: white;
+        }
+
+        .calendar-table td {
+            cursor: pointer;
+        }
+
+        /* Style for checked (blue) dates */
+        .calendar-day.checked {
+            background-color: #0085ff;
+            color: white;
+            border-radius: 50%;
+        }
+
+        /* Style for unchecked (white) dates */
+        .calendar-day.unchecked {
+            background-color: white;
+            color: #333;
+        }
+
+        .sidebar {
+          width: 30%;
+        }
+      
+        .main {
+          width: 100%;
+        }
+    </style>
+</head>
+
+<body
+  x-data="{ page: 'adherence_status', 'loaded': true, 'darkMode': true, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
+  x-init="
+          darkMode = JSON.parse(localStorage.getItem('darkMode'));
+          $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
+  :class="{'dark text-bodydark bg-boxdark-2': darkMode === true}">
+  <!-- ===== Preloader Start ===== -->
+  <include src="./partials/preloader.html"></include>
+  <!-- ===== Preloader End ===== -->
+
+  <!-- ===== Page Wrapper Start ===== -->
+  <div class="flex h-screen overflow-hidden">
+    <!-- ===== Sidebar Start ===== -->
+    <include src="./partials/sidebar.html"></include>
+    <!-- ===== Sidebar End ===== -->
+
+    <!-- ===== Content Area Start ===== -->
+    <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+      <!-- ===== Header Start ===== -->
+      <include src="./partials/header.html" />
+      <!-- ===== Header End ===== -->
+
+      <!-- ===== Main Content Start ===== -->
+      <main>
+        <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+          <div class="mx-auto max-w-270">
+            <!-- Breadcrumb Start -->
+            <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <h2 class="text-title-md2 font-bold text-black dark:text-white">
+                Adherence Page
+              </h2>
+
+              <nav>
+                <ol class="flex items-center gap-2">
+                  <li><a class="font-medium" href="index.html">Dashboard /</a></li>
+                  <li class="font-medium text-primary">Adherence</li>
+                </ol>
+              </nav>
+            </div>
+            <!-- Breadcrumb End -->
+
+            <!-- ====== Adherence Section Start -->
+            <section class="font-[inter] h-screen">
+              <div class="main flex flex-row bg-gray-100 text-gray-800">
+          
+                <main
+                  class="main w-screen h-screen mt-16 flex justify-center items-center transition-all duration-150 ease-in md:ml-0"
+                >
+                  <div class="grid grid-cols-1 gap-8 h-full justify-center items-center bg-[#F4F4F4] w-full p-4">
+                   <div class="grid grid-cols-1 lg:grid-cols-2">
+                      <div class="calendar container bg-white ">
+                          <div class="calendar-header">
+                              <button id="prevMonthBtn">←</button>
+                              <div class="calendar-month" id="currentMonthYear"></div>
+                              <button id="nextMonthBtn">→</button>
+                          </div>
+                          <table class="calendar-table">
+                              <thead>
+                                  <tr>
+                                      <th>Sun</th>
+                                      <th>Mon</th>
+                                      <th>Tue</th>
+                                      <th>Wed</th>
+                                      <th>Thu</th>
+                                      <th>Fri</th>
+                                      <th>Sat</th>
+                                  </tr>
+                              </thead>
+                              <tbody id="calendarDays">
+                              </tbody>
+                          </table>
+                      </div>
+                     <div style="max-width: 400px; margin: 0 auto;" class="container bg-white">
+                        <canvas id="myPieChart"></canvas>
+                      </div>
+                    </div>
+                      <div style="max-width: 600px; margin: 0 auto;" class="container bg-white items-center">
+                          <canvas id="myBarChart"></canvas>
+                      </div>
+                  </div>
+                </main>
+              </div>
+            </section>
+            <!-- ====== Adherence Section End -->
+          </div>
+        </div>
+      </main>
+      <!-- ===== Main Content End ===== -->
+    </div>
+    <!-- ===== Content Area End ===== -->
+  </div>
+  <!-- ===== Page Wrapper End ===== -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script>
+    const calendar = document.querySelector(".calendar");
+    const currentMonthYear = document.querySelector("#currentMonthYear");
+    const calendarDays = document.querySelector("#calendarDays");
+    const prevMonthBtn = document.querySelector("#prevMonthBtn");
+    const nextMonthBtn = document.querySelector("#nextMonthBtn");
+
+    let currentDate = new Date();
+    const selectedDays = [];
+
+
+    // Function to generate random data for "Taken" and "Missed" for each day
+    function generateRandomData(daysInMonth) {
+        const data = [];
+        for (let i = 1; i <= daysInMonth; i++) {
+            data.push({
+                day: i,
+                taken: Math.floor(Math.random() * 100), // Random value for "Taken"
+                missed: Math.floor(Math.random() * 100) // Random value for "Missed"
+            });
+        }
+        return data;
+    }
+
+    // Generate initial random data for the current month
+    const initialRandomData = generateRandomData(new Date().getDate());
+
+    // Function to update the charts with the data for the selected day
+    function updateCharts(dayData) {
+        // Separate "Taken" and "Missed" data for both charts
+        const takenDataPie = dayData.map(day => day.taken);
+        const missedDataPie = dayData.map(day => day.missed);
+
+        // Update the data for the pie chart
+        myPieChart.data.datasets[0].data[0] = takenDataPie;
+        myPieChart.data.datasets[0].data[1] = missedDataPie;
+        myPieChart.update();
+
+        // Combine "Taken" and "Missed" data for the bar chart
+        
+
+        // Update the data for the bar chart
+        myBarChart.data.datasets[0].data[0] = takenDataPie;
+        myBarChart.data.datasets[0].data[1] = missedDataPie;
+        myBarChart.update();
+    }
+
+    function generateCalendar() {
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+
+        // Clear previous calendar
+        calendarDays.innerHTML = "";
+
+        // Set current month and year in the header
+        currentMonthYear.textContent = new Date(year, month).toLocaleString(undefined, { month: 'long', year: 'numeric' });
+
+        // Calculate previous month's last days
+        const daysInPrevMonth = new Date(year, month, 0).getDate();
+        const prevMonthStartDay = daysInPrevMonth - firstDayOfMonth + 1;
+
+        // Generate calendar cells
+        let dayCounter = 1;
+        const randomData = generateRandomData(daysInMonth);
+        for (let i = 0; i < 6; i++) {
+            const row = document.createElement("tr");
+            for (let j = 0; j < 7; j++) {
+                const cell = document.createElement("td");
+                if (i === 0 && j < firstDayOfMonth) {
+                    // Previous month's days
+                    cell.textContent = prevMonthStartDay + j;
+                    cell.classList.add("prev-month");
+                } else if (dayCounter <= daysInMonth) {
+                    // Current month's days
+                    cell.textContent = dayCounter;
+                    cell.classList.add("calendar-day");
+                    const randomDayData = randomData[dayCounter - 1];
+                    cell.dataset.taken = randomDayData.taken;
+                    cell.dataset.missed = randomDayData.missed;
+                    dayCounter++;
+                }
+                row.appendChild(cell);
+            }
+            calendarDays.appendChild(row);
+        }
+    }
+
+    generateCalendar();
+
+    // Event listeners for navigating months
+    prevMonthBtn.addEventListener("click", () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        generateCalendar();
+    });
+
+    nextMonthBtn.addEventListener("click", () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        generateCalendar();
+    });
+
+    // Event listener for clicking on a date to toggle checked/unchecked
+    calendarDays.addEventListener("click", (e) => {
+        if (e.target.classList.contains("calendar-day") && !e.target.classList.contains("checked")) {
+            // Clear the selection
+            calendarDays.querySelectorAll(".calendar-day.checked").forEach((cell) => {
+                cell.classList.remove("checked");
+                cell.classList.add("unchecked");
+            });
+
+            // Select the clicked day
+            e.target.classList.remove("unchecked");
+            e.target.classList.add("checked");
+
+            // Add the selected day to the array
+            selectedDays.length = 0; // Clear the array
+            selectedDays.push({
+                day: Number(e.target.textContent),
+                taken: Number(e.target.dataset.taken),
+                missed: Number(e.target.dataset.missed)
+            });
+
+            // Update the charts with the new data
+            updateCharts(selectedDays);
+        }
+    });
+
+    // Data for the pie chart
+    var pieData = {
+        labels: ['Taken', 'Missed'],
+        datasets: [{
+                data: [NaN,NaN],
+                backgroundColor: ['#0085ff', 'red'], // Blue
+            }
+        ]
+    };
+
+    var pieOptions = {
+        cutout: 60, // Size of the hole in the middle
+        responsive: false, // Disable responsiveness for a fixed size chart
+    };
+
+    // Create the pie chart
+    var pieCtx = document.getElementById('myPieChart').getContext('2d');
+    var myPieChart = new Chart(pieCtx, {
+        type: 'pie',
+        data: pieData,
+        options: pieOptions,
+    });
+
+    // Data for the bar chart
+    var barData = {
+        labels: ['Taken', 'Missed'],
+        datasets: [{
+            data: [NaN,NaN],
+            backgroundColor: ['#0085ff', 'red'], // Blue
+            }
+        ]
+    };
+
+    var barOptions = {
+        responsive: false, // Disable responsiveness for a fixed size chart
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    };
+
+    // Create the bar chart
+    var barCtx = document.getElementById('myBarChart').getContext('2d');
+    var myBarChart = new Chart(barCtx, {
+        type: 'bar',
+        data: barData,
+        options: barOptions,
+    });
+
+
+</script>
+</body>
+
+</html>

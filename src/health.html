@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings | TailAdmin - Tailwind CSS Admin Dashboard Template</title>
+</head>
+
+<body
+  x-data="{ page: 'settings', 'loaded': true, 'darkMode': true, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
+  x-init="
+          darkMode = JSON.parse(localStorage.getItem('darkMode'));
+          $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
+  :class="{'dark text-bodydark bg-boxdark-2': darkMode === true}">
+  <!-- ===== Preloader Start ===== -->
+  <include src="./partials/preloader.html"></include>
+  <!-- ===== Preloader End ===== -->
+
+  <!-- ===== Page Wrapper Start ===== -->
+  <div class="flex h-screen overflow-hidden">
+    <!-- ===== Sidebar Start ===== -->
+    <include src="./partials/sidebar.html"></include>
+    <!-- ===== Sidebar End ===== -->
+
+    <!-- ===== Content Area Start ===== -->
+    <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+      <!-- ===== Header Start ===== -->
+      <include src="./partials/header.html" />
+      <!-- ===== Header End ===== -->
+
+      <!-- ===== Main Content Start ===== -->
+      <main>
+        <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+          <div class="mx-auto max-w-270">
+            <!-- Breadcrumb Start -->
+            <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <h2 class="font-bold text-black dark:text-white text-3xl">
+                Health Insights
+              </h2>
+
+              <nav>
+                <ol class="flex items-center gap-2">
+                  <li><a class="font-medium" href="index.html">Dashboard /</a></li>
+                  <li class="font-medium text-primary">health insights</li>
+                </ol>
+              </nav>
+            </div>
+            <!-- Breadcrumb End -->
+
+            <!-- ====== Settings Section Start -->
+            <main class=" main -ml-48 flex flex-grow flex-col transition-all duration-150 ease-in md:ml-0">
+                <div>
+                  <div class="bg-blue-500 h-40 mx-10 mt-4 text-black rounded-lg ">
+                    <h3 class="font-bold flex items-center justify-center text-2xl mb-4">Healthy Heart: Healthy Living</h3>
+                    <img class="block mx-auto mb-4 w-full h-full object-cover rounded-md" src="./images/product/heart.png" alt="">
+                    <p class="px-4 mb-2 text-xl">Heart disease is a leading cause of death in the United States for both men and women. But you can do a lot to protect your heart and stay healthy.</p>
+                    <p class="px-4 mb-2 text-xl">Heart-healthy living involves understanding your risk, making healthy choices, and taking steps to reduce your chances of getting heart disease, including coronary heart disease, the most common type. By taking preventive measures, you can lower your risk of developing heart disease that could lead to a heart attack</p>
+                    <p class="px-4 text-xl">Learn about the steps you can take to live a heart-healthy lifestyle...</p>
+                  </div>
+                </div>
+              </main>
+            <!-- ====== Settings Section End -->
+          </div>
+        </div>
+      </main>
+      <!-- ===== Main Content End ===== -->
+    </div>
+    <!-- ===== Content Area End ===== -->
+  </div>
+  <!-- ===== Page Wrapper End ===== -->
+</body>
+
+</html>

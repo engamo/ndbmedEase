@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Add Medication | MedEase </title>
+  <!-- Sweet Alert  -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- JS Toast -->
+  <script src="https://jsuites.net/v4/jsuites.js"></script>
+  <link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+  <!-- Tailwind Element -->
+  <link
+href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap"
+rel="stylesheet" />
+<link
+rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
+<script src="https://cdn.tailwindcss.com/3.3.0"></script>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    fontFamily: {
+      sans: ["Roboto", "sans-serif"],
+      body: ["Roboto", "sans-serif"],
+      mono: ["ui-monospace", "monospace"],
+    },
+  },
+  corePlugins: {
+    preflight: false,
+  },
+};
+</script>
+  <!-- <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> -->
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/6526f42deb150b3fb9a08124/1hcg2jla1';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+</head>
+
+<body
+  x-data="{ page: 'medication', 'loaded': true, 'darkMode': true, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
+  x-init="
+          darkMode = JSON.parse(localStorage.getItem('darkMode'));
+          $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
+  :class="{'dark text-bodydark bg-boxdark-2': darkMode === true}">
+  <!-- ===== Preloader Start ===== -->
+  <include src="./partials/preloader.html"></include>
+  <!-- ===== Preloader End ===== -->
+
+  <!-- ===== Page Wrapper Start ===== -->
+  <div class="flex h-screen overflow-hidden">
+    <!-- ===== Sidebar Start ===== -->
+    <include src="./partials/sidebar.html"></include>
+    <!-- ===== Sidebar End ===== -->
+
+    <!-- ===== Content Area Start ===== -->
+    <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+      <!-- ===== Header Start ===== -->
+      <include src="./partials/header.html" />
+      <!-- ===== Header End ===== -->
+
+      <!-- ===== Main Content Start ===== -->
+      <main>
+        <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+          <div class="mx-auto max-w-270">
+            <!-- Breadcrumb Start -->
+            <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <h2 class="text-title-md2 font-bold text-[#64748B] dark:text-white">
+                Add Medication
+              </h2>
+
+              <nav>
+                <ol class="flex items-center gap-2">
+                  <li><a class="font-medium" href="index.html">Dashboard /</a></li>
+                  <li class="font-medium text-primary">Add Medication</li>
+                </ol>
+              </nav>
+            </div>
+            <!-- Breadcrumb End -->
+
+            <!-- ====== Settings Section Start -->
+            <main
+        class="main -ml-48 flex flex-grow bg-gray-100 flex-col transition-all duration-150 ease-in md:ml-0 active relativity" id="medication"
+      >
+        <div
+          class="flex h-full mt-16 justify-center text-xl font-medium"
+        >
+          <div>
+            <form action="#" id="my-form">
+
+              <div class="flex flex-col gap-5">
+                <input id="input-field"
+                type="text"
+                class="peer block h-[50%] w-[50%] rounded border-2 bg-transparent px-3 py-1 leading-[1] transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-800 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-100 focus:ring-2 focus:ring-blue-500 placeholder:text-base"
+                
+                placeholder="Medication Name"
+                name="input"
+              />
+              <input id="input-dosage"
+                type="text"
+                class="peer block h-[50%] w-[50%] rounded border-2 bg-transparent px-3 py-1 leading-[1] transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-800 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-100 focus:ring-2 focus:ring-blue-500 placeholder:text-base"
+               
+                placeholder="Dosage - Eg 12"
+                name="dosage"
+                />
+              </div>
+              
+              <div class="flex text-center mt-5">
+                <button type="button" class="bg-blue-500 hover:bg-blue-700 inline-block text-white font-normal py-2 px-16 text-sm rounded-md shadow-lee" id="add-button" onclick="addMedication()">Add</button>
+                <button type="button" class="hidden bg-yellow-500 hover:bg-yellow-600 text-white font-normal py-2 px-16 text-sm rounded-md shadow-lee" id="update-button" onclick="updateMedication()">Update</button>
+              </div>
+            </form>
+            <div>
+              <div class="mt-5">
+                <div
+                  class="block max-w-4xl rounded-lg bg-white py-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-[#24303F] w-screen"
+                >
+                  <span class="text-1xl font-medium p-6"
+                    >Medication Schedule</span
+                  >
+                  <br />
+                  <br />
+                  <hr />
+
+                  <div class="flex flex-col ">
+                    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                      <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                        <div class="overflow-hidden">
+                          <table class="min-w-full text-left font-light text-lg">
+                            <thead
+                              class="border-b bg-white font-medium dark:border-neutral-500 dark:bg-[#24303F] text-xl">
+                              <tr>
+                                <th scope="col" class="px-6 py-4">Date</th>
+                                <th scope="col" class="px-6 py-4">Medication</th>
+                                <th scope="col" class="px-6 py-4">Dosage</th>
+                                <th scope="col" class="px-6 py-4">Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody id="table-data" class="dark:bg-[#24303F]">
+                              <!-- <tr 
+                                class="border-b bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700" id="item-one">
+                                <td class="whitespace-nowrap px-6 py-4 font-semibold">#</td>
+                                <td class="whitespace-nowrap px-6 py-4 font-semibold">Ibuprofen</td>
+                                <td class="whitespace-nowrap px-6 py-4 font-semibold">1 x 2</td>
+                                <td class="whitespace-nowrap px-6 py-4"> <span
+                                   ><ion-icon name="trash" class="text-center text-[#0085ff] text-3xl cursor-pointer"></ion-icon></span> </td>
+                              </tr> -->
+                            </tbody>
+                          </table>
+
+                          
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+            </div>
+          </div>
+        </div>
+        <p id="defaultText" class="text-xl text-gray-500 dark:text-gray-400 mt-8 hidden">
+          No medication has been added yet.
+        </p>
+        
+            </main>
+
+        </div>
+        </div>
+
+
+    <!-- Tailwind Elements -->
+    <!-- ====== Settings Section End -->
+</div>
+</div>
+</main>
+<!-- ===== Main Content End ===== -->
+</div>
+<!-- ===== Content Area End ===== -->
+</div>
+<!-- ===== Page Wrapper End ===== -->
+    
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script>
+
+  const DB_NAME = "med_db"
+
+  function medID() {
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+      var r = (Math.random() * 16) | 0,
+        v = c == "x" ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  }
+  
+  
+  const addMedication = () => {
+    const inputDosage = document.getElementById('input-dosage');
+    const inputValue = document.getElementById('input-field');
+    const newMedication = {
+      id: medID(),
+      medName: inputValue.value,
+      medDosage: inputDosage.value,
+      created_at: new Date().toLocaleDateString(),
+   };
+
+   
+   const medLocalStorage = JSON.parse(localStorage.getItem(DB_NAME)) || []; // Default values... check to get, or get empty Array
+  // const newMedLocalStorage = [...medLocalStorage, newMedication]
+  medLocalStorage.unshift(newMedication)
+   localStorage.setItem(DB_NAME, JSON.stringify(medLocalStorage)); // set updated back to local storage
+  //  console.log(newMedication)
+   fetchMedications()
+    inputValue.value = "";
+    inputDosage.value = "";
+  }
+
+  const fetchMedications = () => {
+  const med_db = JSON.parse(localStorage.getItem(DB_NAME)) || [];
+  const table_data = document.getElementById("table-data");
+  const defaultText = document.getElementById("defaultText");
+  const _no_med = med_db.length === 0;
+  if (_no_med) {
+    defaultText.classList.remove('hidden');
+    return;
+  }
+  const meds = med_db.sort((a, b) =>
+      a.created_at < b.created_at ? 1 : a.created_at > b.created_at ? -1 : 0
+    ).map((med) => {
+      return `<tr 
+        class="border-b bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700" id="item-one">
+        <td class="whitespace-nowrap px-6 py-4 font-semibold">${med.created_at}</td>
+        <td class="whitespace-nowrap px-6 py-4 font-semibold">${med.medName}</td>
+        <td class="whitespace-nowrap px-6 py-4 font-semibold">${med.medDosage}</td>
+        <td class="whitespace-nowrap px-6 py-4 flex gap-2 cursor-pointer"> <span onclick="deleteMedication('${med.id}')"
+            ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+</svg>
+</span> <span onclick="handleMedicationEdit('${med.id}')"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+</svg>
+</span> </td>
+      </tr>`;
+    });
+
+    table_data.innerHTML = meds.join("");
+};
+
+
+const deleteMedication = (id) => {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // get todo
+      const med_db = JSON.parse(localStorage.getItem(DB_NAME)) || [];
+      // filter out the ones that doesn't match the id that was clicked
+      const _new_med_db_ = med_db.filter((todo) => todo.id !== id);
+      // set the new todos without the todo that matches the id to the local storage
+      localStorage.setItem(DB_NAME, JSON.stringify(_new_med_db_)); // set updated back to local storage
+      fetchMedications()
+      Swal.fire("Deleted!", "Your medication has been deleted.", "success");
+    } else {
+      return;
+    }
+  });
+};
+
+const handleMedicationEdit = (id) => {
+  // get todo
+  const med_db = JSON.parse(localStorage.getItem(DB_NAME)) || [];
+  const _med_to_update_ = med_db.find((med) => med.id === id);
+  if (!_med_to_update_) {
+    return;
+  }
+
+  const inputDosage = document.getElementById('input-dosage');
+  const inputValue = document.getElementById('input-field');
+  const todo_input = document.getElementById("todo_input");
+  inputValue.value = _med_to_update_.medName;
+  inputDosage.value = _med_to_update_.medDosage;
+
+  // Add autofocus attribute to focus on the input field
+  inputValue.setAttribute("autofocus", true);
+
+  const update_button = document.getElementById("update-button");
+  update_button.classList.remove("hidden");
+  update_button.setAttribute("_med_id_to_update", id);
+
+  const add_button = document.getElementById("add-button");
+  add_button.classList.add("hidden");
+};
+
+const updateMedication = () => {
+  const update_button = document.getElementById("update-button");
+  const _med_id_to_update_ = update_button.getAttribute("_med_id_to_update");
+
+  const inputDosage = document.getElementById('input-dosage');
+  const inputValue = document.getElementById('input-field');
+  
+  // // get todo
+  const med_db = JSON.parse(localStorage.getItem(DB_NAME)) || [];
+  const _updated_med_db_ = med_db.map((med) => {
+    if (med.id === _med_id_to_update_) {
+      return { ...med, medName: inputValue.value,
+      medDosage: inputDosage.value };
+    } else {
+      return med;
+    }
+  });
+
+  localStorage.setItem(DB_NAME, JSON.stringify(_updated_med_db_));
+  fetchMedications()
+  inputValue.value = "";
+  inputDosage.value = "";
+
+  update_button.classList.add("hidden");
+  // cancelUpdate.classList.add("hidden");
+  const add_button = document.getElementById("add-button");
+  add_button.classList.remove("hidden");
+};
+
+
+  
+  //  Add a click event listener to the button
+//   function addMedication() {
+//   const addButton = document.getElementById('add-button');
+//   const myForm = document.getElementById('my-form');
+//   const inputValue = document.getElementById('input-field').value;
+//   const inputDosage = document.getElementById('input-dosage').value;
+  
+// // Check if the input value is not empty
+// if (inputValue.trim() && inputDosage !== '') {
+  
+//     // Local Storage
+//     localStorage.setItem('medName', inputValue);
+//     localStorage.setItem('medDose', inputDosage);
+//     // Create a new table row
+//     const newRow = document.createElement('tr');
+//     newRow.classList.add('border-b');
+//     newRow.classList.add('bg-neutral-100');
+//     newRow.classList.add('dark:border-neutral-500');
+//     newRow.classList.add('dark:bg-neutral-700');
+
+//     // Create the <td> elements for the row
+//     const cell1 = document.createElement('td');
+//     cell1.textContent = document.querySelectorAll('#table-data tr').length + 1;
+//     cell1.classList.add('py-6');
+//     cell1.classList.add('font-semibold');
+//     cell1.classList.add('whitespace-nowrap');
+//     cell1.classList.add('px-6');
+//     cell1.classList.add('whitespace-nowrap');
+
+//     const cell2 = document.createElement('td');
+//     cell2.textContent = inputValue;
+//     cell2.classList.add('py-6');
+//     cell2.classList.add('font-semibold');
+//     cell2.classList.add('whitespace-nowrap');
+//     cell2.classList.add('px-6');
+//     cell2.classList.add('whitespace-nowrap');
+
+//     const cell3 = document.createElement('td');
+//     cell3.textContent = inputDosage;
+//     cell3.classList.add('py-6');
+//     cell3.classList.add('font-semibold');
+//     cell3.classList.add('whitespace-nowrap');
+//     cell3.classList.add('px-6');
+//     cell3.classList.add('whitespace-nowrap');
+
+//     const cell4 = document.createElement('td');
+//     cell4.classList.add('flex');
+//     cell4.classList.add('items-center');
+//     cell4.classList.add('justify-start');
+//     cell4.classList.add('gap-6');
+//     cell4.classList.add('pt-4');
+//     cell4.classList.add('pl-4');
+//     cell4.classList.add('whitespace-nowrap');
+
+//     const deleteButton = document.createElement('button');
+//     deleteButton.innerHTML = '<ion-icon name="trash" class="text-center text-[#EF4444] text-3xl cursor-pointer"></ion-icon>';
+//     deleteButton.addEventListener('click', function () {
+//     Swal.fire({
+//     title: 'Are you sure?',
+//     text: "You won't be able to revert this!",
+//     icon: 'warning',
+//     showCancelButton: true,
+//     confirmButtonColor: '#3085d6',
+//     cancelButtonColor: '#d33',
+//     confirmButtonText: 'Yes, delete it!'
+//     }).then((result) => {
+//     if (result.isConfirmed) {
+
+//       newRow.remove();
+
+//       // Remove the item from local storage
+//       const storedData = JSON.parse(localStorage.getItem('storedData')) || [];
+      
+//       const indexToRemove = storedData.findIndex(item => item.name === inputValue && item.dosage === inputDosage);
+//       if (indexToRemove !== -1) {
+//           storedData.splice(indexToRemove, 1);
+//           localStorage.setItem('storedData', JSON.stringify(storedData));
+//       }
+//       Swal.fire(
+//         'Deleted!',
+//         'Your file has been deleted.',
+//         'success'
+//       )
+//     } else { return }
+//     })
+
+
+
+//     });
+//     cell4.appendChild(deleteButton);
+
+//     // Edit
+//     const editButton = document.createElement('button');
+//     editButton.innerHTML = '<ion-icon name="create-outline" class="text-center text-[#3498db] text-3xl cursor-pointer"></ion-icon>';
+
+//     editButton.addEventListener('click', function () {
+
+    
+
+//     // // Update the row's content with edited values
+//     const medicationName = cell2.textContent;
+//     const medicationDosage = cell3.textContent;
+
+//     // Set the edited data to the input fields for further editing
+//     document.getElementById('input-field').value = medicationName;
+//     document.getElementById('input-dosage').value = medicationDosage;
+//     newRow.remove();
+    
+//     // Update local storage with the edited data
+//     localStorage.setItem(medicationName, medicationDosage);
+// });
+
+// cell4.appendChild(editButton);
+
+
+//     newRow.appendChild(cell1);
+//     newRow.appendChild(cell2);
+//     newRow.appendChild(cell3);
+//     newRow.appendChild(cell4);
+
+//     const tableData = document.getElementById('table-data');
+//     tableData.appendChild(newRow);
+
+//     // jSuites.notification({
+//     //     name: 'Congratulations',
+//     //     message: 'Medication Added Successfully',
+//     // })
+//     Swal.fire({
+//   position: 'top-end',
+//   icon: 'success',
+//   title: 'Medication added successfully',
+//   showConfirmButton: false,
+//   timer: 1500
+// })
+
+//     // Save the data to local storage
+//     const storedData = JSON.parse(localStorage.getItem('storedData')) || [];
+//     storedData.unshift({ name: inputValue, dosage: inputDosage });
+//     localStorage.setItem('storedData', JSON.stringify(storedData));
+
+//     // Hide default text
+//     const defaultText = document.getElementById('defaultText');
+//     defaultText.classList.remove('hidden');
+// } else {
+//     //   jSuites.notification({
+//     //     error: 1,
+//     //     name: 'Error message',
+//     //     message: 'Fields Cannot Be Empty',
+//     // })
+//     Swal.fire({
+//   position: 'top-end',
+//   icon: 'warning',
+//   title: 'Both fields cannot be empty',
+//   showConfirmButton: false,
+//   timer: 1500
+// })
+//   }
+
+//       // Show the default text
+//       const defaultText = document.getElementById('defaultText');
+//       defaultText.classList.add('hidden');
+
+
+
+//     myForm.reset();
+// };
+
+
+// // Loading from local storage
+// document.addEventListener('DOMContentLoaded', () => {
+
+//     const storedData = JSON.parse(localStorage.getItem('storedData')) || [];
+
+//     // Get the default text element
+//     const defaultText = document.getElementById('defaultText');
+
+//     // If there's no data in local storage, show the default text
+//     if (storedData.length === 0) {
+//       defaultText.classList.remove('hidden'); // Show the default text
+//     } else {
+//       defaultText.classList.add('hidden'); // Hide the default text
+//     }
+
+//     const tableData = document.getElementById('table-data');
+//     tableData.innerHTML = '';
+
+//     for (let i = 0; i < localStorage.length; i++) {
+//       const medicationName = localStorage.key(i);
+//       const medicationDosage = localStorage.getItem(medicationName)
+//     }
+
+//     let rowNumber = 1;
+
+//     // storedData.reverse();
+//     storedData.forEach(item => {
+//         const newRow = document.createElement('tr');
+//         newRow.classList.add('border-b');
+//         newRow.classList.add('bg-neutral-100');
+//         newRow.classList.add('dark:border-neutral-500');
+//         newRow.classList.add('dark:bg-neutral-700');
+
+//         const cell1 = document.createElement('td');
+//         cell1.textContent = rowNumber++;
+//         cell1.classList.add('py-6');
+//         cell1.classList.add('font-semibold');
+//         cell1.classList.add('whitespace-nowrap');
+//         cell1.classList.add('px-6');
+
+//         const cell2 = document.createElement('td');
+//         cell2.textContent = item.name;
+//         cell2.classList.add('py-6');
+//         cell2.classList.add('font-semibold');
+//         cell2.classList.add('whitespace-nowrap');
+//         cell2.classList.add('px-6');
+
+//         const cell3 = document.createElement('td');
+//         cell3.textContent = item.dosage;
+//         cell3.classList.add('py-6');
+//         cell3.classList.add('font-semibold');
+//         cell3.classList.add('whitespace-nowrap');
+//         cell3.classList.add('px-6');
+
+//         const cell4 = document.createElement('td');
+//         cell4.classList.add('flex');
+//         cell4.classList.add('items-center');
+//         cell4.classList.add('justify-start');
+//         cell4.classList.add('gap-6');
+//         cell4.classList.add('pt-4');
+//         cell4.classList.add('pl-4');
+//         cell4.classList.add('whitespace-nowrap');
+
+//         const deleteButton = document.createElement('button');
+//         deleteButton.innerHTML = '<ion-icon name="trash" class="text-center text-[#EF4444] text-3xl cursor-pointer"></ion-icon>';
+//         deleteButton.addEventListener('click', function () {
+          
+//           Swal.fire({
+//             title: 'Are you sure?',
+//             text: "You won't be able to revert this!",
+//             icon: 'warning',
+//             showCancelButton: true,
+//             confirmButtonColor: '#3085d6',
+//             cancelButtonColor: '#d33',
+//             confirmButtonText: 'Yes, delete it!'
+//           }).then((result) => {
+//             if (result.isConfirmed) {
+//             const medicationName = cell2.textContent;
+
+//             localStorage.removeItem(medicationName)
+//             newRow.remove();
+
+//           Swal.fire(
+//               'Deleted!',
+//               'Medication has been deleted.',
+//               'success'
+//             )
+//           } else { return }
+//           })
+//         });
+//         cell4.appendChild(deleteButton);
+
+//         const editButton = document.createElement('button');
+//         editButton.innerHTML = '<ion-icon name="create" class="text-center text-[#3498db] text-3xl cursor-pointer"></ion-icon>';
+//         editButton.addEventListener('click', function () {
+
+//             // Retrieve the data from the row
+//             const medicationName = cell2.textContent;
+//             const medicationDosage = cell3.textContent;
+
+//             // Set the edited data to the input fields for further editing
+//             document.getElementById('input-field').value = medicationName;
+//             document.getElementById('input-dosage').value = medicationDosage;
+//             newRow.remove();
+//         });
+//         cell4.appendChild(editButton);
+
+//         newRow.appendChild(cell1);
+//         newRow.appendChild(cell2);
+//         newRow.appendChild(cell3);
+//         newRow.appendChild(cell4);
+
+//         tableData.appendChild(newRow);
+//     });
+
+// });
+
+fetchMedications()
+// In case I intend clearing the local
+// localStorage.clear()
+    </script>
+
+    
+<script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
+</body>
+
+</html>

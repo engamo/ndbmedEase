@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile | TailAdmin - Tailwind CSS Admin Dashboard Template</title>
+</head>
+
+<body
+  x-data="{ page: 'index', 'loaded': true, 'darkMode': true, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
+  x-init="
+          darkMode = JSON.parse(localStorage.getItem('darkMode'));
+          $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
+  :class="{'dark text-bodydark bg-boxdark-2': darkMode === true}">
+  <!-- ===== Preloader Start ===== -->
+  <include src="./partials/preloader.html"></include>
+  <!-- ===== Preloader End ===== -->
+
+  <!-- ===== Page Wrapper Start ===== -->
+  <div class="flex h-screen overflow-hidden">
+    <!-- ===== Sidebar Start ===== -->
+    <include src="./partials/sidebar.html"></include>
+    <!-- ===== Sidebar End ===== -->
+
+    <!-- ===== Content Area Start ===== -->
+    <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+      <!-- ===== Header Start ===== -->
+      <include src="./partials/header.html" />
+      <!-- ===== Header End ===== -->
+
+      <!-- ===== Main Content Start ===== -->
+      <main>
+        <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+          <div class="mx-auto max-w-242.5">
+            <!-- Breadcrumb Start -->
+            <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <h2 class="text-title-md2 font-bold text-black dark:text-white">
+                Profile
+              </h2>
+
+              <nav>
+                <ol class="flex items-center gap-2">
+                  <li><a class="font-medium" href="index.html">Dashboard /</a></li>
+                  <li class="text-primary">Profile</li>
+                </ol>
+              </nav>
+            </div>
+            <!-- Breadcrumb End -->
+
+            
+            <!-- ====== Profile Section Start -->
+            <div
+              class="overflow-hidden rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+              
+              <div class="px-4 pb-6 text-center lg:pb-8 xl:pb-11.5">
+                <div
+                  class="relative z-30 mx-auto h-30 w-full max-w-30 mt-4 rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-44 sm:p-3">
+                  <div class="relative drop-shadow-2">
+                    <img id="profile-image" src="./images/user/user-06.png" alt="profile" class="rounded-full"/>
+                    <label for="profile"
+                      class="absolute bottom-0 right-0 flex h-8.5 w-8.5 cursor-pointer items-center justify-center rounded-full bg-primary text-white hover:bg-opacity-90 sm:bottom-2 sm:right-2">
+                      <svg class="fill-current" width="14" height="14" viewBox="0 0 14 14" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M4.76464 1.42638C4.87283 1.2641 5.05496 1.16663 5.25 1.16663H8.75C8.94504 1.16663 9.12717 1.2641 9.23536 1.42638L10.2289 2.91663H12.25C12.7141 2.91663 13.1592 3.101 13.4874 3.42919C13.8156 3.75738 14 4.2025 14 4.66663V11.0833C14 11.5474 13.8156 11.9925 13.4874 12.3207C13.1592 12.6489 12.7141 12.8333 12.25 12.8333H1.75C1.28587 12.8333 0.840752 12.6489 0.512563 12.3207C0.184375 11.9925 0 11.5474 0 11.0833V4.66663C0 4.2025 0.184374 3.75738 0.512563 3.42919C0.840752 3.101 1.28587 2.91663 1.75 2.91663H3.77114L4.76464 1.42638ZM5.56219 2.33329L4.5687 3.82353C4.46051 3.98582 4.27837 4.08329 4.08333 4.08329H1.75C1.59529 4.08329 1.44692 4.14475 1.33752 4.25415C1.22812 4.36354 1.16667 4.51192 1.16667 4.66663V11.0833C1.16667 11.238 1.22812 11.3864 1.33752 11.4958C1.44692 11.6052 1.59529 11.6666 1.75 11.6666H12.25C12.4047 11.6666 12.5531 11.6052 12.6625 11.4958C12.7719 11.3864 12.8333 11.238 12.8333 11.0833V4.66663C12.8333 4.51192 12.7719 4.36354 12.6625 4.25415C12.5531 4.14475 12.4047 4.08329 12.25 4.08329H9.91667C9.72163 4.08329 9.53949 3.98582 9.4313 3.82353L8.43781 2.33329H5.56219Z"
+                          fill="" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M7.00004 5.83329C6.03354 5.83329 5.25004 6.61679 5.25004 7.58329C5.25004 8.54979 6.03354 9.33329 7.00004 9.33329C7.96654 9.33329 8.75004 8.54979 8.75004 7.58329C8.75004 6.61679 7.96654 5.83329 7.00004 5.83329ZM4.08337 7.58329C4.08337 5.97246 5.38921 4.66663 7.00004 4.66663C8.61087 4.66663 9.91671 5.97246 9.91671 7.58329C9.91671 9.19412 8.61087 10.5 7.00004 10.5C5.38921 10.5 4.08337 9.19412 4.08337 7.58329Z"
+                          fill="" />
+                      </svg>
+                      <input type="file" name="profile" id="profile" class="sr-only" />
+                    </label>
+                  </div>
+                </div>
+                <div class="mt-4 border border-gray-2 p-8 rounded-lg max-w-auto text-left">
+                  <h3 class="mb-1.5 text-2xl font-medium text-black dark:text-white" id="full-name">
+                    Danish Heilium
+                  </h3>
+
+                  <div class="mx-auto">
+                    <h4 class="font-medium text-black dark:text-white">
+                      About Me
+                    </h4>
+                    <p class="mt-2 font-medium text-sm" id="bio"></p>
+                  </div>
+                  <div class="flex justify-between align-center mt-8">
+                    <div class="bg-[#ccc] p-8 rounded-3xl">
+                      <h4 class="mb-2 font-medium text-black dark:text-white mt-4 text-xl">
+                        Personal Information
+                      </h4>
+                      <p>Age: <span>45 years</span></p>
+                      <p>Gender: <span>Female</span></p>
+                      <p>Address: <span>#9, Agege, Lagos, Nigeria</span></p>
+                      <p>Phone Number: <span id="phone-number"></span></p>
+                      <p>Username: <span id="username"></span></p>
+                      <p>Email: <span id="email"> </span></p>
+                    </div>
+                    <div class="bg-[#ccc] p-8 rounded-3xl">
+                      <h4 class="mb-2 font-medium text-black dark:text-white mt-4 text-xl">
+                        Emergency Contact
+                      </h4>
+                      <p>Fullname: <span id="eFull-name"></span></p>
+                      <p>Phone number: <span id="ePhone-number"></span></p>
+                      <p>Email: <span id="eEmail-address"></span></p>
+                      <p>Relationship: <span id="eRelationship"></span></p>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <!-- ====== Profile Section End -->
+          </div>
+        </div>
+      </main>
+      <!-- ===== Main Content End ===== -->
+    </div>
+    <!-- ===== Content Area End ===== -->
+  </div>
+  <!-- ===== Page Wrapper End ===== -->
+  <script>
+    const fullName = localStorage.getItem('full-name');
+    const phoneNumber = localStorage.getItem('phone-number');
+    const email = localStorage.getItem('email');
+    const username = localStorage.getItem('username');
+    const bio = localStorage.getItem('bio');
+
+    const eFullName = localStorage.getItem('eFull-name');
+    const ePhoneNumber = localStorage.getItem('ePhone-number');
+    const eEmailAddress = localStorage.getItem('eEmail-address');
+    const relationship = localStorage.getItem('eRelationship');
+
+    document.getElementById('full-name').textContent = fullName;
+    document.getElementById('phone-number').textContent = phoneNumber;
+    document.getElementById('email').textContent = email;
+    document.getElementById('username').textContent = username;
+    document.getElementById('bio').textContent = bio;
+
+    document.getElementById('eFull-name').textContent = eFullName;
+    document.getElementById('ePhone-number').textContent = ePhoneNumber;
+    document.getElementById('eEmail-address').textContent = eEmailAddress;
+    document.getElementById('eRelationship').textContent = relationship;
+
+    // Get the file input element
+    const profileInput = document.getElementById('profile');
+
+    // Get the profile image element
+    const profileImage = document.getElementById('profile-image');
+
+    // Add an event listener for when the user selects a new image
+    profileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+
+      if (file) {
+        const reader = new FileReader();
+
+        reader.onload = (event) => {
+          // Update the src attribute of the profile image with the new image data
+          profileImage.src = event.target.result;
+
+          // Store the image data in localStorage
+          sessionStorage.setItem('profileImage', event.target.result);
+        };
+
+        // Read the selected image file as a data URL
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Check if the image data exists in localStorage and set it as the image source
+    const savedProfileImage = sessionStorage.getItem('profileImage');
+    if (savedProfileImage) {
+      profileImage.src = savedProfileImage;
+    }
+  </script>
+ 
+</body>
+
+</html>
